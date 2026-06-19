@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Event Attendance Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Mu Sigma A</h1>
+            <p class="subtitle">Attendance Scanner</p>
+            <div class="stats-badge">
+                Total Scans: <span id="total-scans">0</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="scanner-section">
+                <div class="scanner-container">
+                    <div id="reader"></div>
+                    <div class="scanner-overlay">
+                        <div class="scan-frame"></div>
+                    </div>
+                </div>
+                <button id="scan-action-btn" class="scan-action-btn" disabled>Starting Camera...</button>
+                <div class="status-indicator" id="status-indicator" style="display: none;">
+                    Initializing camera...
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <div class="recent-header">
+                    <h2>Recent Attendance</h2>
+                    <div class="last-scan-container">
+                        <span class="last-scan-label">Last:</span>
+                        <span id="last-scan" class="last-scan-badge">None</span>
+                    </div>
+                </div>
+                <div class="recent-list-container">
+                    <ul id="recent-list">
+                        <!-- Scanned items will appear here -->
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Include html5-qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
