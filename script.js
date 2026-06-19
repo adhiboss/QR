@@ -12,6 +12,8 @@ let scannedToday = new Set(); // To prevent duplicate scans locally
 const totalScansEl = document.getElementById('total-scans');
 const statusIndicatorEl = document.getElementById('status-indicator');
 const scanActionBtn = document.getElementById('scan-action-btn');
+const manualIdInput = document.getElementById('manual-id-input');
+const manualSaveBtn = document.getElementById('manual-save-btn');
 const lastScanEl = document.getElementById('last-scan');
 const recentListEl = document.getElementById('recent-list');
 const scanFrameEl = document.querySelector('.scan-frame');
@@ -23,6 +25,14 @@ scanActionBtn.addEventListener('click', () => {
     scanActionBtn.innerText = "Scanning... Point at QR";
     statusIndicatorEl.style.display = 'block';
     showStatus('Looking for code...', '');
+});
+
+manualSaveBtn.addEventListener('click', () => {
+    const studentId = manualIdInput.value.trim();
+    if (!studentId) return;
+    
+    manualIdInput.value = ''; // clear input
+    processScanResult(studentId);
 });
 
 // --- AUDIO (Beep Sound) ---
@@ -53,17 +63,22 @@ function playBeep() {
 // --- SCAN HANDLER ---
 async function onScanSuccess(decodedText, decodedResult) {
     if (!manualScanRequested) return; // Wait for the user to click the button
-    if (isProcessing) return; // Prevent multiple triggers for the same scan
     
     const studentId = decodedText.trim();
     if (!studentId) return;
 
     manualScanRequested = false;
-    isProcessing = true;
     
     // Add visual feedback to scanner frame
     scanFrameEl.classList.add('success-anim');
     setTimeout(() => scanFrameEl.classList.remove('success-anim'), 500);
+    
+    await processScanResult(studentId);
+}
+
+async function processScanResult(studentId) {
+    if (isProcessing) return; // Prevent multiple triggers for the same scan
+    isProcessing = true;
     
     // Current Date and Time formatting
     const now = new Date();
