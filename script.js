@@ -1,5 +1,5 @@
 // --- CONFIGURATION ---
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxKHjx1ylCUzf5_9cPB20AwzCdmDFRRpmtORFRFcheDjCKf8L1QglpEr9lreAyKRkAG2g/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuh5m-QaiKevzmKlos0f0OKVkPZ3_K5lnUStZNb8IgHg0g1LZROUTkUh40ZXeauVizGQ/exec';
 
 // --- STATE ---
 let totalScans = 0;
