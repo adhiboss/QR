@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Scan to Sheet Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- QR Code Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- WebRTC Peer-to-Peer Library -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-top">
+                <h1>Inventory Pro</h1>
+                <div id="connection-status" class="status-pill online">🟢 Online</div>
+            </div>
+            <div class="header-stats">
+                <span id="total-scans">Total: 0</span>
+                <span id="pending-sync" class="hidden" style="color: var(--warning);">⏳ Pending: <span id="pending-count">0</span></span>
+                <span id="room-badge" class="hidden" style="color: var(--primary);">🔗 Room: <span id="room-name"></span></span>
+            </div>
+        </header>
