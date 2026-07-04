@@ -24,3 +24,46 @@
                 <span id="room-badge" class="hidden" style="color: var(--primary);">🔗 Room: <span id="room-name"></span></span>
             </div>
         </header>
+<main id="main-content">
+            <!-- TAB 1: SCANNER -->
+            <div id="tab-scan" class="tab-content active">
+                <div class="scanner-section">
+                    <div class="scanner-container">
+                        <div id="reader"></div>
+                        <div class="scanner-overlay">
+                            <div class="scan-frame"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="scan-controls">
+                        <div class="qty-control">
+                            <label>Qty:</label>
+                            <input type="number" id="scan-qty" value="1" min="1" max="9999">
+                        </div>
+                        <button id="scan-action-btn" class="scan-action-btn" disabled>Starting Camera...</button>
+                    </div>
+                    
+                    <div class="status-indicator" id="status-indicator" style="display: none;">
+                        Initializing camera...
+                    </div>
+                    
+                    <div class="manual-entry">
+                        <input type="text" id="manual-id-input" placeholder="Type Barcode ID manually" />
+                        <button id="manual-save-btn" class="manual-save-btn">Save</button>
+                    </div>
+                    
+                    <div class="external-scanner-info">
+                        <small>⌨️ External USB/Bluetooth scanners supported.</small>
+                    </div>
+                </div>
+
+                <div class="recent-section">
+                    <div class="recent-header">
+                        <h2>Recent Scans</h2>
+                        <span id="last-scan" class="last-scan-badge">None</span>
+                    </div>
+                    <div class="recent-list-container">
+                        <ul id="recent-list"></ul>
+                    </div>
+                </div>
+            </div>
