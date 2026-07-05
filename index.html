@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Scan to Sheet Pro</title>
+    <title>USN Attendance Scanner</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- QR Code Scanner Library -->
@@ -15,11 +15,13 @@
     <div class="app-container">
         <header>
             <div class="header-top">
-                <h1>Inventory Pro</h1>
+                <h1>USN Attendance</h1>
                 <div id="connection-status" class="status-pill online">🟢 Online</div>
             </div>
             <div class="header-stats">
-                <span id="total-scans">Total: 0</span>
+                <span id="total-scans">Present: 0</span>
+                <span id="db-count">Database: 0</span>
+                <span id="absent-count">Absent: 0</span>
                 <span id="pending-sync" class="hidden" style="color: var(--warning);">⏳ Pending: <span id="pending-count">0</span></span>
                 <span id="room-badge" class="hidden" style="color: var(--primary);">🔗 Room: <span id="room-name"></span></span>
             </div>
@@ -27,6 +29,16 @@
 <main id="main-content">
             <!-- TAB 1: SCANNER -->
             <div id="tab-scan" class="tab-content active">
+                <div class="panel">
+                    <h2>Student Database (USN Master)</h2>
+                    <p class="panel-desc">Upload CSV first. Example columns: usn,name,branch,section.</p>
+                    <div class="manual-entry">
+                        <input type="file" id="db-file-input" accept=".csv" />
+                        <button id="load-db-btn" class="manual-save-btn">Load Database</button>
+                    </div>
+                    <small id="db-load-message">No database loaded.</small>
+                </div>
+
                 <div class="scanner-section">
                     <div class="scanner-container">
                         <div id="reader"></div>
@@ -36,10 +48,6 @@
                     </div>
                     
                     <div class="scan-controls">
-                        <div class="qty-control">
-                            <label>Qty:</label>
-                            <input type="number" id="scan-qty" value="1" min="1" max="9999">
-                        </div>
                         <button id="scan-action-btn" class="scan-action-btn" disabled>Starting Camera...</button>
                     </div>
                     
@@ -48,8 +56,8 @@
                     </div>
                     
                     <div class="manual-entry">
-                        <input type="text" id="manual-id-input" placeholder="Type Barcode ID manually" />
-                        <button id="manual-save-btn" class="manual-save-btn">Save</button>
+                        <input type="text" id="manual-id-input" placeholder="Type USN manually" />
+                        <button id="manual-save-btn" class="manual-save-btn">Mark Attendance</button>
                     </div>
                     
                     <div class="external-scanner-info">
@@ -59,7 +67,7 @@
 
                 <div class="recent-section">
                     <div class="recent-header">
-                        <h2>Recent Scans</h2>
+                        <h2>Recent Attendance Events</h2>
                         <span id="last-scan" class="last-scan-badge">None</span>
                     </div>
                     <div class="recent-list-container">
@@ -67,3 +75,64 @@
                     </div>
                 </div>
             </div>
+             <!-- TAB 2: SYNC (P2P) -->
+            <div id="tab-sync" class="tab-content hidden">
+                <div class="panel">
+                    <h2>Multi-Device Sync</h2>
+                    <p class="panel-desc">Connect phones together to broadcast scans in real-time over the internet.</p>
+                    
+                    <div class="sync-actions" id="sync-setup-ui">
+                        <button id="create-room-btn" class="primary-btn">🏠 Create Sync Room</button>
+                        
+                        <div class="divider"><span>OR</span></div>
+                        
+                        <div class="join-room-ui">
+                            <input type="text" id="join-room-input" placeholder="Enter Room ID" />
+                            <button id="join-room-btn" class="secondary-btn">Join Room</button>
+                        </div>
+                    </div>
+                    
+                    <div id="active-sync-ui" class="hidden">
+                        <div class="room-info-card">
+                            <h3>Active Room: <span id="active-room-id" class="highlight"></span></h3>
+                            <p>Share this ID with other devices to let them join.</p>
+                            <button id="leave-room-btn" class="danger-btn">Leave Room</button>
+                        </div>
+                        
+                        <h4>Connected Devices (<span id="peer-count">0</span>)</h4>
+                        <ul id="peer-list" class="simple-list"></ul>
+                    </div>
+                </div>
+            </div>
+ 
+
+            <div id="tab-export" class="tab-content hidden">
+                <div class="panel">
+                    <h2>Data Management</h2>
+                    <p class="panel-desc">Export attendance and rejected scans.</p>
+                    
+                    <div class="export-controls">
+                        <button id="export-csv-btn" class="primary-btn">📥 Export Attendance CSV</button>
+                        <button id="export-rejected-btn" class="secondary-btn">📥 Export Rejected CSV</button>
+                    </div>
+                    
+                    <div class="offline-queue-section">
+                        <h3>Rejected / Duplicate Attempts</h3>
+                        <p class="panel-desc">Invalid USNs or repeated scans are shown below.</p>
+                        <button id="force-sync-btn" class="secondary-btn">🧹 Clear Rejected Log</button>
+                        <ul id="offline-list" class="simple-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="tab-scan">📷 Scan</button>
+            <button class="nav-item" data-target="tab-sync">🔗 Sync</button>
+            <button class="nav-item" data-target="tab-export">📊 Data</button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
