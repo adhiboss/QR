@@ -10,6 +10,7 @@
 --border:#334155;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+.hidden{display:none!important}
 body{
 font-family:'Outfit',sans-serif;
 background:linear-gradient(135deg,#0f172a,#111827);
