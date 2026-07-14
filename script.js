@@ -333,6 +333,7 @@ function markAttendance(rawUsn, source = "scan") {
   return record;
 }
 
+//Funtion call //
 function renderStats() {
   const students = getStudentDb();
   const attendance = getAttendance();
