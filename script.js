@@ -155,6 +155,7 @@ function markAttendance(rawUsn, source = "scan") {
 	setStatus(`Present marked: ${student.usn} (${student.name})`);
 }
 
+//Funtion call //
 function renderStats() {
 	const students = getStudentDb();
 	const attendance = getAttendance();
