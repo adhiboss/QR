@@ -16,7 +16,6 @@ let photoDbPromise = null;
 const photoUrlCache = new Map();
 
 const els = {
-<<<<<<< HEAD
   totalScans: document.getElementById("total-scans"),
   dbCount: document.getElementById("db-count"),
   absentCount: document.getElementById("absent-count"),
@@ -52,30 +51,6 @@ const els = {
   loadDbBtn: document.getElementById("load-db-btn"),
   dbLoadMessage: document.getElementById("db-load-message"),
   roomName: document.getElementById("room-name")
-=======
-	totalScans: document.getElementById("total-scans"),
-	dbCount: document.getElementById("db-count"),
-	absentCount: document.getElementById("absent-count"),
-	lastScan: document.getElementById("last-scan"),
-	recentList: document.getElementById("recent-list"),
-	statusIndicator: document.getElementById("status-indicator"),
-	scanActionBtn: document.getElementById("scan-action-btn"),
-	manualIdInput: document.getElementById("manual-id-input"),
-	manualSaveBtn: document.getElementById("manual-save-btn"),
-	helpBtn: document.getElementById("help-btn"),
-	exportCsvBtn: document.getElementById("export-csv-btn"),
-	exportRejectedBtn: document.getElementById("export-rejected-btn"),
-	forceSyncBtn: document.getElementById("force-sync-btn"),
-	offlineList: document.getElementById("offline-list"),
-	navItems: document.querySelectorAll(".nav-item"),
-	tabContents: document.querySelectorAll(".tab-content"),
-	connectionStatus: document.getElementById("connection-status"),
-	pendingSync: document.getElementById("pending-sync"),
-	pendingCount: document.getElementById("pending-count"),
-	dbFileInput: document.getElementById("db-file-input"),
-	loadDbBtn: document.getElementById("load-db-btn"),
-	dbLoadMessage: document.getElementById("db-load-message")
->>>>>>> feature
 };
 
 function loadJson(key, fallback = []) {
@@ -921,17 +896,8 @@ function setupEvents() {
     }
   });
 
-<<<<<<< HEAD
   window.addEventListener("online", setConnectionBadge);
   window.addEventListener("offline", setConnectionBadge);
-=======
-	els.helpBtn?.addEventListener("click", () => {
-		alert("📖 HELP\n\n1. Load Database: Upload CSV with student info\n2. Scan QR: Point camera at QR codes\n3. Manual Entry: Type USN if QR fails\n4. View Stats: See attendance summary\n5. Sync Room: Connect multiple devices\n6. Export: Download attendance as CSV\n7. Data Tab: Manage rejected scans\n\n💡 Tip: Use external scanners for faster entry!");
-	});
-
-	window.addEventListener("online", setConnectionBadge);
-	window.addEventListener("offline", setConnectionBadge);
->>>>>>> feature
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
