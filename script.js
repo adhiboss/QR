@@ -33,6 +33,7 @@ const els = {
   snapshotBtn: document.getElementById("snapshot-btn"),
   manualIdInput: document.getElementById("manual-id-input"),
   manualSaveBtn: document.getElementById("manual-save-btn"),
+  clearAttendanceBtn: document.getElementById("clear-attendance-btn"),
   exportCsvBtn: document.getElementById("export-csv-btn"),
   exportRejectedBtn: document.getElementById("export-rejected-btn"),
   forceSyncBtn: document.getElementById("force-sync-btn"),
@@ -886,6 +887,13 @@ function setupEvents() {
     setRejected([]);
     renderAll();
     setStatus("Rejected log cleared.");
+  });
+  els.clearAttendanceBtn?.addEventListener("click", () => {
+    if (confirm("Clear all attendance records? This cannot be undone.")) {
+      setAttendance([]);
+      renderAll();
+      setStatus("All attendance records cleared.");
+    }
   });
 
   window.addEventListener("online", setConnectionBadge);
