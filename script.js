@@ -19,6 +19,7 @@ const els = {
 	scanActionBtn: document.getElementById("scan-action-btn"),
 	manualIdInput: document.getElementById("manual-id-input"),
 	manualSaveBtn: document.getElementById("manual-save-btn"),
+	helpBtn: document.getElementById("help-btn"),
 	exportCsvBtn: document.getElementById("export-csv-btn"),
 	exportRejectedBtn: document.getElementById("export-rejected-btn"),
 	forceSyncBtn: document.getElementById("force-sync-btn"),
@@ -494,6 +495,10 @@ function setupEvents() {
 		setRejected([]);
 		renderAll();
 		setStatus("Rejected log cleared.");
+	});
+
+	els.helpBtn?.addEventListener("click", () => {
+		alert("📖 HELP\n\n1. Load Database: Upload CSV with student info\n2. Scan QR: Point camera at QR codes\n3. Manual Entry: Type USN if QR fails\n4. View Stats: See attendance summary\n5. Sync Room: Connect multiple devices\n6. Export: Download attendance as CSV\n7. Data Tab: Manage rejected scans\n\n💡 Tip: Use external scanners for faster entry!");
 	});
 
 	window.addEventListener("online", setConnectionBadge);
