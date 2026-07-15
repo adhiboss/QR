@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="USN Attendance Hub icon">
+  <defs>
+    <linearGradient id="g" x1="64" y1="48" x2="448" y2="464" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5dd6a7"/>
+      <stop offset="1" stop-color="#ffb86b"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="#07111f"/>
+  <rect x="74" y="74" width="364" height="364" rx="84" fill="none" stroke="url(#g)" stroke-width="26"/>
+  <rect x="138" y="138" width="96" height="96" rx="20" fill="url(#g)"/>
+  <rect x="278" y="138" width="96" height="96" rx="20" fill="#dffbf0" opacity="0.94"/>
+  <rect x="138" y="278" width="96" height="96" rx="20" fill="#dffbf0" opacity="0.94"/>
+  <path d="M304 300h18v-18h20v18h18v20h-18v18h-20v-18h-18z" fill="#5dd6a7"/>
+  <path d="M174 352l32-38 24 26 24-32 26 44" fill="none" stroke="#5dd6a7" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

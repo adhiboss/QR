@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>USN Attendance Scanner</title>
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Installable QR attendance web app for scanning, tracking, exporting, and reviewing USN attendance.">
+    <title>Compnay USN Attendance Hub</title>
+    <h1> Attendence Tracking <h1/>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.webmanifest">
     <!-- QR Code Scanner Library -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <!-- WebRTC Peer-to-Peer Library -->
@@ -15,18 +19,54 @@
     <div class="app-container">
         <header>
             <div class="header-top">
+                <div>
+                    <p class="eyebrow">Installable QR attendance web app</p>
+                    <h1>USN Attendance Hub</h1>
+                    <p class="hero-copy">Scan, manage, export, and review attendance from one device or a shared room.</p>
+                </div>
+                <div class="header-actions">
+                    <button id="install-app-btn" class="secondary-btn hidden">Install App</button>
+                    <div id="connection-status" class="status-pill online">🟢 Online</div>
+                </div>
                 <h1>JAIN UNIVERSITY placement Attendence tracker app.</h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <button id="help-btn" class="secondary-btn" style="padding: 8px 12px; font-size: 14px;">❓ Help</button>
                     <div id="connection-status" class="status-pill online">🟢 Online</div>
                 </div>
+                <div id="connection-status" class="status-pill online">🟢 Online</div>
+
             </div>
-            <div class="header-stats">
-                <span id="total-scans">Present: 0</span>
-                <span id="db-count">Database: 0</span>
-                <span id="absent-count">Absent: 0</span>
-                <span id="pending-sync" class="hidden" style="color: var(--warning);">⏳ Pending: <span id="pending-count">0</span></span>
-                <span id="room-badge" class="hidden" style="color: var(--primary);">🔗 Room: <span id="room-name"></span></span>
+            <div class="dashboard-grid">
+                <article class="dashboard-card accent-card">
+                    <span>Present</span>
+                    <strong id="total-scans">0</strong>
+                    <small>Marked attendance</small>
+                </article>
+                <article class="dashboard-card">
+                    <span>Database</span>
+                    <strong id="db-count">0</strong>
+                    <small>Loaded students</small>
+                </article>
+                <article class="dashboard-card">
+                    <span>Absent</span>
+                    <strong id="absent-count">0</strong>
+                    <small>Still pending</small>
+                </article>
+                <article class="dashboard-card">
+                    <span>Attendance rate</span>
+                    <strong id="attendance-rate">0%</strong>
+                    <small>Present vs database</small>
+                </article>
+                <article class="dashboard-card">
+                    <span>Rejected</span>
+                    <strong id="rejected-count">0</strong>
+                    <small>Invalid or duplicate scans</small>
+                </article>
+                <article class="dashboard-card muted-card">
+                    <span>Room</span>
+                    <strong id="room-name">None</strong>
+                    <small>Optional sync session</small>
+                </article>
             </div>
         </header>
 <main id="main-content">
@@ -52,6 +92,7 @@
                     
                     <div class="scan-controls">
                         <button id="scan-action-btn" class="scan-action-btn" disabled>Starting Camera...</button>
+                        <button id="snapshot-btn" class="secondary-btn" disabled>Capture Snapshot</button>
                     </div>
                     
                     <div class="status-indicator" id="status-indicator" style="display: none;">
@@ -66,16 +107,36 @@
                     <div class="external-scanner-info">
                         <small>⌨️ External USB/Bluetooth scanners supported.</small>
                     </div>
+
+                    <div class="quick-actions">
+                        <button id="clear-attendance-btn" class="danger-btn" style="margin-top: 15px;">🗑️ Clear All Records</button>
+                    </div>
                 </div>
 
                 <div class="recent-section">
                     <div class="recent-header">
                         <h2>Recent Attendance Events</h2>
+                        <input type="search" id="attendance-search-input" placeholder="Filter by USN, name, branch, or source" />
                         <span id="last-scan" class="last-scan-badge">None</span>
                     </div>
                     <div class="recent-list-container">
                         <ul id="recent-list"></ul>
                     </div>
+                </div>
+
+                <div class="panel directory-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h2>Student Directory</h2>
+                            <p class="panel-desc">Search the roster and see who is already marked present.</p>
+                        </div>
+                        <input type="search" id="student-search-input" placeholder="Search USN, name, branch, or section" />
+                    </div>
+                    <div class="directory-meta">
+                        <span id="directory-count">0 students</span>
+                        <span id="directory-present-count">0 present</span>
+                    </div>
+                    <ul id="student-list" class="directory-list"></ul>
                 </div>
             </div>
              <!-- TAB 2: SYNC (P2P) -->
@@ -123,7 +184,21 @@
                         <h3>Rejected / Duplicate Attempts</h3>
                         <p class="panel-desc">Invalid USNs or repeated scans are shown below.</p>
                         <button id="force-sync-btn" class="secondary-btn">🧹 Clear Rejected Log</button>
+                        <div class="summary-strip">
+                            <span>Rejected log updates automatically when scans fail.</span>
+                            <span id="data-updated-at">Ready</span>
+                        </div>
                         <ul id="offline-list" class="simple-list"></ul>
+                    </div>
+
+                    <div class="photo-archive-section">
+                        <h3>Captured Scan Photos</h3>
+                        <p class="panel-desc">Every accepted camera scan stores a snapshot here, and you can save extra snapshots manually.</p>
+                        <div class="summary-strip">
+                            <span>Stored pictures stay on this device.</span>
+                            <span id="photo-count">0 photos</span>
+                        </div>
+                        <ul id="photo-archive-list" class="photo-archive-list"></ul>
                     </div>
                 </div>
             </div>
